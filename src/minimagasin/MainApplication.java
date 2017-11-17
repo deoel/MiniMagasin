@@ -5,6 +5,13 @@
  */
 package minimagasin;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import views.ConsulterArticles;
 import views.ConsulterFactures;
 import views.NouvelArticle;
@@ -19,9 +26,96 @@ public class MainApplication extends javax.swing.JFrame {
     /**
      * Creates new form MainApplication
      */
+    private static Connection connection;
+    
     public MainApplication() {
         initComponents();
         this.setLocationRelativeTo(null);
+        connection = ConnectionDB.getConnection();
+    }
+    
+    public static ArrayList<Article> chargerArticles() {
+        ArrayList<Article> arrayArticles = new ArrayList<>();
+        
+        try {
+            String req = "SELECT * FROM article";
+            Statement stmt = connection.createStatement();
+            
+            ResultSet result = stmt.executeQuery(req);
+            
+            while(result.next()) {
+                String code = result.getString("code");
+                String designation = result.getString("designation");
+                double prix = result.getDouble("prix");
+                Categorie categorie = Categorie.valueOf(result.getString("categorie"));
+                
+                Article article = new Article(code, designation, prix, categorie);
+                arrayArticles.add(article);
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (CategorieInvalideException ex) {
+            ex.printStackTrace();
+        }
+        
+        return arrayArticles;
+    }
+    
+    public static ArrayList<Achat> chargerAchats(int numFacture) {
+        ArrayList<Achat> arrayAchats = new ArrayList<>();
+        
+        try {
+            String req = "SELECT * FROM achat WHERE num_facture = ?";
+            PreparedStatement stmt = connection.prepareStatement(req);
+            stmt.setInt(1, numFacture);
+            
+            ResultSet result = stmt.executeQuery();
+            
+            while(result.next()) {
+                int num = result.getInt("num");
+                int quantite = result.getInt("quantite");
+                String codeArticle = result.getString("code_article");
+                
+                for(Article article : MainApplication.chargerArticles()) {
+                    if(article.getCode().equals(codeArticle)) {
+                        Achat achat = new Achat(num, article, quantite);
+                        arrayAchats.add(achat);
+                        break;
+                    }
+                }
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return arrayAchats;
+    }
+    
+    public static ArrayList<Facture> chargerFactures() {
+        ArrayList<Facture> arrayFactures = new ArrayList<>();
+        
+        try {
+            String req = "SELECT * FROM facture";
+            Statement stmt = connection.createStatement();
+            
+            ResultSet result = stmt.executeQuery(req);
+            
+            while(result.next()) {
+                int num = result.getInt("num");
+                Date date = result.getDate("date_facture");
+                ArrayList<Achat> arryAchats = MainApplication.chargerAchats(num);
+                
+                Facture facture = new Facture(num, date, arryAchats);
+                arrayFactures.add(facture);
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return arrayFactures;
     }
 
     /**

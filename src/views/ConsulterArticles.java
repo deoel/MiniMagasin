@@ -7,6 +7,7 @@ package views;
 
 import minimagasin.Article;
 import java.util.ArrayList;
+import minimagasin.MainApplication;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ConsulterArticles extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         int i = 0;
-        ArrayList<Article> arrayArticles = new Article().chargerArticles();
+        ArrayList<Article> arrayArticles = MainApplication.chargerArticles();
         for(Article article : arrayArticles) {
             this.tblArticles.setValueAt(i+1, i, 0);
             this.tblArticles.setValueAt(article.getCode(), i, 1);

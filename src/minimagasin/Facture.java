@@ -134,29 +134,4 @@ public class Facture implements Serializable {
         
         return result;
     }
-    
-    public ArrayList<Facture> chargerFactures() {
-        ArrayList<Facture> arrayFactures = new ArrayList<>();
-        
-        try {
-            String req = "SELECT * FROM facture";
-            Statement stmt = this.connection.createStatement();
-            
-            ResultSet result = stmt.executeQuery(req);
-            
-            while(result.next()) {
-                int num = result.getInt("num");
-                Date date = result.getDate("date_facture");
-                ArrayList<Achat> arryAchats = new Achat().getAchats(num);
-                
-                Facture facture = new Facture(num, date, arryAchats);
-                arrayFactures.add(facture);
-            }
-            
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        
-        return arrayFactures;
-    }
 }

@@ -10,6 +10,7 @@ import minimagasin.Article;
 import minimagasin.Facture;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import minimagasin.MainApplication;
 
 /**
  *
@@ -28,7 +29,7 @@ public class ConsulterFactures extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.arrayFactures = new Facture().chargerFactures();
+        this.arrayFactures = MainApplication.chargerFactures();
         this.arrayNumFactures = new ArrayList<>();
         
         for(Facture f : this.arrayFactures) {
@@ -139,12 +140,10 @@ public class ConsulterFactures extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import minimagasin.MainApplication;
 
 /**
  *
@@ -36,11 +37,11 @@ public class NouvelleFacture extends javax.swing.JFrame {
 
         this.setLocationRelativeTo(null);
         this.lblDate.setText(Date.valueOf(LocalDate.now()).toString());
-        this.numFacture = (new Facture().chargerFactures().get(new Facture().chargerFactures().size() - 1).getNum() + 1);
+        this.numFacture = (MainApplication.chargerFactures().get(MainApplication.chargerFactures().size() - 1).getNum() + 1);
         this.lblNumero.setText(numFacture  + "");
         this.lblMessage.setText(null);
 
-        this.arrayArticles = new Article().chargerArticles();
+        this.arrayArticles = MainApplication.chargerArticles();
         this.arrayDesignation = new ArrayList<>();
 
         for (Article a : this.arrayArticles) {
@@ -287,7 +288,7 @@ public class NouvelleFacture extends javax.swing.JFrame {
         if(this.facture.getCollectionAchat().size() > 0) {
             this.facture.enregistrer();
         
-            this.numFacture = (new Facture().chargerFactures().get(new Facture().chargerFactures().size() - 1).getNum() + 1);;
+            this.numFacture = (MainApplication.chargerFactures().get(MainApplication.chargerFactures().size() - 1).getNum() + 1);;
             this.lblNumero.setText(numFacture  + "");
             this.lblTotal.setText("0");
             

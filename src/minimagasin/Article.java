@@ -96,32 +96,4 @@ public class Article implements Serializable {
         
         return result;
     }
-    
-    public ArrayList<Article> chargerArticles() {
-        ArrayList<Article> arrayArticles = new ArrayList<>();
-        
-        try {
-            String req = "SELECT * FROM article";
-            Statement stmt = this.connection.createStatement();
-            
-            ResultSet result = stmt.executeQuery(req);
-            
-            while(result.next()) {
-                String code = result.getString("code");
-                String designation = result.getString("designation");
-                double prix = result.getDouble("prix");
-                Categorie categorie = Categorie.valueOf(result.getString("categorie"));
-                
-                Article article = new Article(code, designation, prix, categorie);
-                arrayArticles.add(article);
-            }
-            
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (CategorieInvalideException ex) {
-            ex.printStackTrace();
-        }
-        
-        return arrayArticles;
-    }
 }

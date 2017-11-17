@@ -7,12 +7,8 @@ package minimagasin;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 
 /**
  *
@@ -86,36 +82,5 @@ public class Achat implements Serializable{
         }
         
         return result;
-    }
-    
-    public ArrayList<Achat> getAchats(int numFacture) {
-        ArrayList<Achat> arrayAchats = new ArrayList<>();
-        
-        try {
-            String req = "SELECT * FROM achat WHERE num_facture = ?";
-            PreparedStatement stmt = this.connection.prepareStatement(req);
-            stmt.setInt(1, numFacture);
-            
-            ResultSet result = stmt.executeQuery();
-            
-            while(result.next()) {
-                int num = result.getInt("num");
-                int quantite = result.getInt("quantite");
-                String codeArticle = result.getString("code_article");
-                
-                for(Article article : new Article().chargerArticles()) {
-                    if(article.getCode().equals(codeArticle)) {
-                        Achat achat = new Achat(num, article, quantite);
-                        arrayAchats.add(achat);
-                        break;
-                    }
-                }
-            }
-            
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        
-        return arrayAchats;
     }
 }
