@@ -3,7 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views;
+package minimagasin;
+
+import views.ConsulterArticles;
+import views.ConsulterFactures;
+import views.NouvelArticle;
+import views.NouvelleFacture;
 
 /**
  *

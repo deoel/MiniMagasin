@@ -5,6 +5,7 @@
  */
 package views;
 
+import javax.swing.DefaultComboBoxModel;
 import minimagasin.Article;
 import minimagasin.ArticleEnSolde;
 import minimagasin.Categorie;
@@ -23,6 +24,7 @@ public class NouvelArticle extends javax.swing.JFrame {
         initComponents();
         this.lblMessage.setText(null);
         this.setLocationRelativeTo(null);
+        this.cmbCategorie.setModel(new DefaultComboBoxModel(Categorie.values()));
     }
 
     /**
